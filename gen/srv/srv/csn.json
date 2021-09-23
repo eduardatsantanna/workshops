@@ -1,0 +1,332 @@
+{
+  "namespace": "myapp",
+  "definitions": {
+    "myapp.Sales": {
+      "kind": "entity",
+      "@UI.SelectionFields": [
+        {
+          "=": "id"
+        },
+        {
+          "=": "vendor"
+        }
+      ],
+      "@UI.LineItem": [
+        {
+          "Value": {
+            "=": "id"
+          }
+        },
+        {
+          "Value": {
+            "=": "cost"
+          }
+        },
+        {
+          "Value": {
+            "=": "vendor"
+          }
+        },
+        {
+          "Value": {
+            "=": "customer.id"
+          },
+          "Label": "Customer"
+        }
+      ],
+      "@UI.HeaderInfo.TypeNamePlural": "Sales",
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "customer.id"
+      },
+      "@UI.HeaderInfo.Description.Value": {
+        "=": "id"
+      },
+      "elements": {
+        "id": {
+          "@title": "ID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "cost": {
+          "@title": "Cost",
+          "type": "cds.Integer"
+        },
+        "vendor": {
+          "@title": "Vendor",
+          "type": "cds.String",
+          "length": 100
+        },
+        "customer": {
+          "type": "cds.Association",
+          "target": "myapp.Customers",
+          "keys": [
+            {
+              "ref": [
+                "id"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "myapp.Customers": {
+      "kind": "entity",
+      "@UI.SelectionFields": [
+        {
+          "=": "id"
+        },
+        {
+          "=": "name"
+        }
+      ],
+      "@UI.LineItem": [
+        {
+          "Value": {
+            "=": "id"
+          }
+        },
+        {
+          "Value": {
+            "=": "name"
+          }
+        },
+        {
+          "Value": {
+            "=": "phone"
+          }
+        },
+        {
+          "Value": {
+            "=": "mail"
+          }
+        }
+      ],
+      "@UI.HeaderInfo.TypeNamePlural": "Customers",
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "name"
+      },
+      "@UI.HeaderInfo.Description.Value": {
+        "=": "id"
+      },
+      "elements": {
+        "id": {
+          "@title": "ID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "name": {
+          "@title": "Name",
+          "type": "cds.String",
+          "length": 100
+        },
+        "phone": {
+          "@title": "Phone",
+          "type": "cds.String",
+          "length": 100
+        },
+        "mail": {
+          "@title": "Mail",
+          "@assert.format": "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$",
+          "type": "cds.String",
+          "length": 100
+        },
+        "sales": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "myapp.Sales",
+          "on": [
+            {
+              "ref": [
+                "sales",
+                "customer"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "CatalogService": {
+      "@source": "srv/catalog-service.cds",
+      "kind": "service"
+    },
+    "CatalogService.Sales": {
+      "kind": "entity",
+      "@UI.SelectionFields": [
+        {
+          "=": "id"
+        },
+        {
+          "=": "vendor"
+        }
+      ],
+      "@UI.LineItem": [
+        {
+          "Value": {
+            "=": "id"
+          }
+        },
+        {
+          "Value": {
+            "=": "cost"
+          }
+        },
+        {
+          "Value": {
+            "=": "vendor"
+          }
+        },
+        {
+          "Value": {
+            "=": "customer.id"
+          },
+          "Label": "Customer"
+        }
+      ],
+      "@UI.HeaderInfo.TypeNamePlural": "Sales",
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "customer.id"
+      },
+      "@UI.HeaderInfo.Description.Value": {
+        "=": "id"
+      },
+      "projection": {
+        "from": {
+          "ref": [
+            "myapp.Sales"
+          ]
+        }
+      },
+      "elements": {
+        "id": {
+          "@title": "ID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "cost": {
+          "@title": "Cost",
+          "type": "cds.Integer"
+        },
+        "vendor": {
+          "@title": "Vendor",
+          "type": "cds.String",
+          "length": 100
+        },
+        "customer": {
+          "type": "cds.Association",
+          "target": "CatalogService.Customers",
+          "keys": [
+            {
+              "ref": [
+                "id"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "CatalogService.Customers": {
+      "kind": "entity",
+      "@UI.SelectionFields": [
+        {
+          "=": "id"
+        },
+        {
+          "=": "name"
+        }
+      ],
+      "@UI.LineItem": [
+        {
+          "Value": {
+            "=": "id"
+          }
+        },
+        {
+          "Value": {
+            "=": "name"
+          }
+        },
+        {
+          "Value": {
+            "=": "phone"
+          }
+        },
+        {
+          "Value": {
+            "=": "mail"
+          }
+        }
+      ],
+      "@UI.HeaderInfo.TypeNamePlural": "Customers",
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "name"
+      },
+      "@UI.HeaderInfo.Description.Value": {
+        "=": "id"
+      },
+      "projection": {
+        "from": {
+          "ref": [
+            "myapp.Customers"
+          ]
+        }
+      },
+      "elements": {
+        "id": {
+          "@title": "ID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "name": {
+          "@title": "Name",
+          "type": "cds.String",
+          "length": 100
+        },
+        "phone": {
+          "@title": "Phone",
+          "type": "cds.String",
+          "length": 100
+        },
+        "mail": {
+          "@title": "Mail",
+          "@assert.format": "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$",
+          "type": "cds.String",
+          "length": 100
+        },
+        "sales": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "CatalogService.Sales",
+          "on": [
+            {
+              "ref": [
+                "sales",
+                "customer"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "meta": {
+    "creator": "CDS Compiler v2.5.2",
+    "flavor": "inferred"
+  },
+  "$version": "2.0"
+}

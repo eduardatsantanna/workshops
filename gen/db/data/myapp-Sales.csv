@@ -1,0 +1,4 @@
+id,cost,vendor,customer.id
+1,555,SAP,1
+2,220,Lab2dev,1
+3,630,SAP Brazil,2
